@@ -5,7 +5,7 @@ services:
     environment:
       KAFKA_HEAP_OPTS: -Xmx1024m -Xms1024m
       JMX_PORT: 9999
-      ZK_SERVICE: kafka/zk
+      ZK_SERVICE: avvo-kafka/zk
     volumes_from:
     - broker-volume
     tty: true
@@ -35,7 +35,7 @@ services:
     environment:
       KAFKA_HEAP_OPTS: -Xmx1024m -Xms1024m
       JMX_PORT: 9998
-      ZK_SERVICE: kafka/zk
+      ZK_SERVICE: avvo-kafka/zk
     volumes_from:
     - zk-volume
     tty: true
