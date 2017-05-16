@@ -1,8 +1,5 @@
 name: avvo-kafka
 description: |
   custom deployment of kafka
-version: 0
+version: 1.0
 category: kafka
-maintainer: abi@avvo.com
-license: private
-projectURL: https://github.com/avvo/rancher-catalog
