@@ -1,3 +1,10 @@
+.catalog:
+  name: avvo-kafka
+  version: v1.0
+  description: Rancher Kafka Service
+  minimum_rancher_version: v1.1.0
+  maximum_rancher_version: v1.6.0
+
 version: '2'
 services:
   broker:
