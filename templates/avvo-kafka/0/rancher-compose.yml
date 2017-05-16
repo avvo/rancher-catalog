@@ -2,7 +2,7 @@ version: '2'
 services:
   broker:
     retain_ip: true
-    scale: 3
+    scale: 1
     start_on_create: true
     health_check:
       healthy_threshold: 2
@@ -13,11 +13,11 @@ services:
       strategy: recreate
   broker-volume:
     retain_ip: true
-    scale: 3
+    scale: 1
     start_on_create: true
   zk:
     retain_ip: true
-    scale: 3
+    scale: 1
     start_on_create: true
     health_check:
       healthy_threshold: 2
@@ -28,7 +28,7 @@ services:
       strategy: recreate
   zk-volume:
     retain_ip: true
-    scale: 3
+    scale: 1
     start_on_create: true
   dd-agent:
     scale: 1
