@@ -10,6 +10,12 @@ catalog:
         required: true
         default: 3
         type: "int"
+      - variable: "kafka_version"
+        description: "kafka version"
+        label: "kafka version"
+        required: true
+        default: "0.10.2.0"
+        type: "string"
       - variable: "kafka_mem"
         description: "Amount of memory to config brokers."
         label: "Broker Memory (mb):"
