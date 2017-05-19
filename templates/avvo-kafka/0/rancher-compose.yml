@@ -2,18 +2,42 @@ version: '2'
 catalog:
   name: avvo-kafka
   version: v1.0
-  description: Custom Kafka Service
+  description: AVVO Custom Kafka Service
   questions:
+      - variable: "kafka_scale"
+        description: "Number of brokers nodes. Note: Recommended an odd number"
+        label: "Broker Nodes:"
+        required: true
+        default: 3
+        type: "int"
+      - variable: "kafka_mem"
+        description: "Amount of memory to config brokers."
+        label: "Broker Memory (mb):"
+        required: true
+        default: 1024 
+        type: "string"
       - variable: "dd_api_key"
         description: "datadog api key"
         label: "DataDog API Key"
         required: true
-        default: ""
+        default: true
+        type: "boolean"
+      - variable: "dd_apm_enabled"
+        description: "datadog apm enabled"
+        label: "datadog apm enabled"
+        required: true
+        default: true
+        type: "boolean"
+      - variable: "dd_log_level"
+        description: "datadog log level"
+        label: "datadog log level"
+        required: true
+        default: "INFO"
         type: "string"
 services:
   broker:
     retain_ip: true
-    scale: 3
+    scale: ${kafka_scale}
     start_on_create: true
     health_check:
       healthy_threshold: 2
@@ -24,11 +48,11 @@ services:
       strategy: recreate
   broker-volume:
     retain_ip: true
-    scale: 3
+    scale: ${kafka_scale}
     start_on_create: true
   zk:
     retain_ip: true
-    scale: 3
+    scale: ${kafka_scale}
     start_on_create: true
     health_check:
       healthy_threshold: 2
@@ -39,7 +63,7 @@ services:
       strategy: recreate
   zk-volume:
     retain_ip: true
-    scale: 3
+    scale: ${kafka_scale}
     start_on_create: true
   dd-agent:
     scale: 1

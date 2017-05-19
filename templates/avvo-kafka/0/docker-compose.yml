@@ -3,7 +3,7 @@ services:
   broker:
     image: avvo/kafka:rancher-kafka-0.10.2.0
     environment:
-      KAFKA_HEAP_OPTS: -Xmx1024m -Xms1024m
+      KAFKA_HEAP_OPTS: -Xmx${kafka_mem}m -Xms${kafka_mem}m
       JMX_PORT: 9999
       ZK_SERVICE: avvo-kafka/zk
     volumes_from:
@@ -63,9 +63,9 @@ services:
     image: datadog/docker-dd-agent:latest-jmx
     entrypoint: /opt/rancher/scripts/entrypoint-wrapper.sh
     environment:
-      API_KEY: <dd api key>
-      DD_APM_ENABLED: 'false'
-      DD_LOG_LEVEL: INFO
+      API_KEY: ${dd_api_key}
+      DD_APM_ENABLED: ${dd_apm_enabled}
+      DD_LOG_LEVEL: ${dd_log_level}
     volumes_from:
     - dd-agent-config
     links:
@@ -84,7 +84,7 @@ services:
     - /opt/rancher
     labels:
       io.rancher.scheduler.affinity:host_label: facing=backend
-      io.rancher.container.start_once: 'true'
+      io.rancher.container.start_once: true
   kafka-manager:
     image: sheepkiller/kafka-manager:alpine
     environment:
