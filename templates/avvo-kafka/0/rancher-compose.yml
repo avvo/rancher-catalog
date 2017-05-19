@@ -1,17 +1,15 @@
-.catalog:
+version: '2'
+catalog:
   name: avvo-kafka
   version: v1.0
-  description: Rancher Kafka Service
-  minimum_rancher_version: v1.1.0
-  maximum_rancher_version: v1.6.0
-version: '2'
-questions:
-    - variable: "dd_api_key"
-      description: "datadog api key"
-      label: "DataDog API Key"
-      required: true
-      default: ""
-      type: "string"
+  description: Custom Kafka Service
+  questions:
+      - variable: "dd_api_key"
+        description: "datadog api key"
+        label: "DataDog API Key"
+        required: true
+        default: ""
+        type: "string"
 services:
   broker:
     retain_ip: true
