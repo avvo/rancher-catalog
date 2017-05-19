@@ -15,13 +15,13 @@ catalog:
         label: "Broker Memory (mb):"
         required: true
         default: 1024 
-        type: "string"
+        type: "int"
       - variable: "dd_api_key"
         description: "datadog api key"
         label: "DataDog API Key"
         required: true
-        default: true
-        type: "boolean"
+        default: "key goes here during launch"
+        type: "string"
       - variable: "dd_apm_enabled"
         description: "datadog apm enabled"
         label: "datadog apm enabled"
