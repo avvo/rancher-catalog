@@ -58,6 +58,24 @@ services:
     image: rancher/logstash-config:v0.2.0
     labels:
       io.rancher.container.hostname_override: container_name
+  logspout:
+    image: bekt/logspout-logstash:latest
+    network_mode: managed
+    links:
+    - logstash
+    environment:
+      ROUTE_URIS: "logstash://logstash:5000"
+      LOGSPOUT: 'ignore'
+      SYSLOG_HOSTNAME: "Rancher:Test"
+    volumes:
+    - '/var/run/docker.sock:/var/run/docker.sock'
+    labels:
+      io.rancher.scheduler.global: 'true'
+      io.rancher.container.hostname_override: container_name
+    tty: false
+    stdin_open: true
+    depends_on:
+    - logstash
   logstash:
     image: throrin19/logstash-gelf:5.5.0
     network_mode: managed
@@ -65,6 +83,7 @@ services:
     tty: true
     links:
     - graylog
+    - logspout
     volumes_from:
     - logstash-config
     ports:
@@ -79,24 +98,6 @@ services:
       io.rancher.container.hostname_override: container_name
     depends_on:
     - graylog
-  logspout:
-    image: bekt/logspout-logstash:latest
-    network_mode: managed
-    links:
-    - logstash
-    environment:
-      ROUTE_URIS: "logstash://logstash:57584"
-      LOGSPOUT: 'ignore'
-      SYSLOG_HOSTNAME: "Rancher:Test"
-    volumes:
-    - '/var/run/docker.sock:/var/run/docker.sock'
-    labels:
-      io.rancher.scheduler.global: 'true'
-      io.rancher.container.hostname_override: container_name
-    tty: false
-    stdin_open: true
-    depends_on:
-    - logstash
   mongodb:
     image: mongo:3
     network_mode: managed
