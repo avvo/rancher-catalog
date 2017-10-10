@@ -85,8 +85,8 @@ services:
     stdin_open: true
     tty: true
     volumes:
-    - /etc/logstash
-    - /opt/logstash/patterns
+    - logstash-config:/etc/logstash
+    - logstash-config:/opt/logstash/patterns
     links:
     - graylog
     - logspout
