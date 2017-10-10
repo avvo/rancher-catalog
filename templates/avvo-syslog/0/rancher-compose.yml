@@ -1,6 +1,7 @@
 version: '2'
 catalog:
   name: Logspout
+  minimum_rancher_version: v1.0.1
   version: 0.2.0-1
   description: |
     Logspout is a log router for Docker containers.  This community template 
@@ -32,20 +33,3 @@ catalog:
       default: "rfc5424"
       description: |
         The Syslog format to use.  If not certain, use rfc5424
-    - variable: "syslog timestamp"
-      label: "Syslog Timestamp"
-      type: "string"
-      options:
-        - "{{.Timestamp}}"
-      required: true
-      default: "{{.Timestamp}}"
-      description: "what docker value to use as timestamp"
-    - variable: "syslog_tag"
-      label: "Syslog Tag"
-      type: "string"
-      options:
-        - "{{.ContainerName}}+route.Options["append_tag"]"
-      required: true
-      default: "{{.ContainerName}}+route.Options["append_tag"]"
-      description: "how to tag log entries"
-
