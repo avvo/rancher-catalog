@@ -1,5 +1,5 @@
-name: avvo-logging
-description: "log routing and collection / indexing"
+name: Avvo Logging
+description: This stack manages log routing, collection, indexing, and viewing.
 version: 0
 category: "Core Infrastructure"
 license: Private

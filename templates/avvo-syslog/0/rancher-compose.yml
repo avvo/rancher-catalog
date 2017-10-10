@@ -2,8 +2,7 @@ version: '2'
 catalog:
   name: Avvo Logging
   version: 0
-  description: |
-    This stack manages log routing (logspout); collection (logstash); indexing (graylog); and viewing (graylog)
+  description: log routing, collection, indexing, and viewing
   questions:
     - variable: "route_uri"
       label: "LogSpout Target URI"
@@ -29,4 +28,3 @@ catalog:
       default: "rfc5424"
       description: |
         The Syslog format to use.  If not certain, use rfc5424
-

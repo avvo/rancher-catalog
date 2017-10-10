@@ -2,7 +2,7 @@
 # from the running docker containers by-way-of the local docker api
 version: '2'
 services:
-  # https://github.com/gliderlabs/logspout
+  # based on https://github.com/gliderlabs/logspout
   logspout:
     restart: always
     environment:
@@ -20,7 +20,6 @@ services:
       SYSLOG_HOSTNAME: "${envname}"
       SYSLOG_PID: "{{.Container.State.Pid}}"
       SYSLOG_PRIORITY: "{{.Priority}}"
-      SYSLOG_STRUCTURED_DATA: ""
       SYSLOG_TAG: "${syslog_tag}"
       SYSLOG_TIMESTAMP: "${syslog_timestamp}"
     volumes:
