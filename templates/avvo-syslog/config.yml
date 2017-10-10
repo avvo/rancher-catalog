@@ -1,0 +1,5 @@
+name: avvo-syslog
+description: |
+  logging and related stuff
+version: 1.0
+category: logging

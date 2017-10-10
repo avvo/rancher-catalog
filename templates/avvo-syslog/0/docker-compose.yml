@@ -1,0 +1,34 @@
+# log spout runs on all 'rancherized' hosts and grabs the log stream
+# from the running docker containers by-way-of the local docker api
+version: '2'
+services:
+  # https://github.com/gliderlabs/logspout
+  logspout:
+    restart: always
+    environment:
+      # set logspout to read only since last restart
+      # docker logs --since=0s
+      ALLOW_TTY: true
+      EXCLUDE_LABEL: ""
+      INACTIVITY_TIMEOUT: 600
+      BACKLOG: false
+      TAIL: "all"
+      ROUTE_URIS: "${route_uri}"
+      LOGSPOUT: 'ignore'
+      SYSLOG_DATA: "{{.Data}}\n"
+      SYSLOG_FORMAT: "${format}"
+      SYSLOG_HOSTNAME: "${envname}"
+      SYSLOG_PID: "{{.Container.State.Pid}}"
+      SYSLOG_PRIORITY: "{{.Priority}}"
+      SYSLOG_STRUCTURED_DATA: ""
+      SYSLOG_TAG: "${syslog_tag}"
+      SYSLOG_TIMESTAMP: "${syslog_timestamp}"
+    volumes:
+    - '/var/run/docker.sock:/var/run/docker.sock'
+    labels:
+      io.rancher.scheduler.global: 'true'
+      io.rancher.container.hostname_override: container_name
+    tty: true
+    image: bekt/logspout-logstash:latest
+    stdin_open: true
+
