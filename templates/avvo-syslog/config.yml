@@ -1,5 +1,4 @@
-name: avvo-syslog
-description: |
-  logging and related stuff
+name: avvo-logging
+description: "log routing and collection / indexing"
 version: 1.0
 category: logging
