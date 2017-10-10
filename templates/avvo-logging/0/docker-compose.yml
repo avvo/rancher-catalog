@@ -56,6 +56,16 @@ services:
       io.rancher.container.hostname_override: container_name
   logstash-config:
     environment: 
+      LOGSTASH_CONFIG_INPUTS: |+
+        udp {
+          port => 5000
+          codec => "json"
+        }
+      LOGSTASH_CONFIG_OUTPUTS: |+
+        gelf {
+          host => "graylog"
+          port => "12201"
+        }
       ROUTE_URIS: "logstash://logstash:5000"
       LOGSPOUT: 'ignore'
       SYSLOG_HOSTNAME: "Rancher:Test "
