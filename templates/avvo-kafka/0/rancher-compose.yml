@@ -4,79 +4,79 @@ catalog:
   version: v1.0
   description: AVVO Custom Kafka Service
   questions:
-      - variable: "kafka_scale"
-        description: "Number of brokers nodes. Note: Recommended an odd number"
-        label: "Broker Nodes:"
-        required: true
-        default: 3
-        type: "int"
-      - variable: "kafka_version"
-        description: "kafka version"
-        label: "kafka version"
-        required: true
-        default: "0.10.2.0"
-        type: "string"
-      - variable: "kafka_mem"
-        description: "Amount of memory to config brokers."
-        label: "Broker Memory (mb):"
-        required: true
-        default: 1024 
-        type: "int"
-      - variable: "dd_api_key"
-        description: "datadog api key"
-        label: "DataDog API Key"
-        required: true
-        default: "key goes here during launch"
-        type: "string"
-      - variable: "dd_apm_enabled"
-        description: "datadog apm enabled"
-        label: "datadog apm enabled"
-        required: true
-        default: true
-        type: "boolean"
-      - variable: "dd_log_level"
-        description: "datadog log level"
-        label: "datadog log level"
-        required: true
-        default: "INFO"
-        type: "string"
+    - variable: "kafka_scale"
+      description: "Number of brokers nodes. Note: Recommended an odd number"
+      label: "Broker Nodes:"
+      required: true
+      default: 3
+      type: "int"
+    - variable: "kafka_version"
+      description: "kafka version"
+      label: "kafka version"
+      required: true
+      default: "0.10.2.0"
+      type: "string"
+    - variable: "kafka_mem"
+      description: "Amount of memory to config brokers."
+      label: "Broker Memory (mb):"
+      required: true
+      default: 1024 
+      type: "int"
+    - variable: "dd_api_key"
+      description: "datadog api key"
+      label: "DataDog API Key"
+      required: true
+      default: "key goes here during launch"
+      type: "string"
+    - variable: "dd_apm_enabled"
+      description: "datadog apm enabled"
+      label: "datadog apm enabled"
+      required: true
+      default: true
+      type: "boolean"
+    - variable: "dd_log_level"
+      description: "datadog log level"
+      label: "datadog log level"
+      required: true
+      default: "INFO"
+      type: "string"
 services:
-  broker:
-    retain_ip: true
-    scale: ${kafka_scale}
-    start_on_create: true
-    health_check:
-      healthy_threshold: 2
-      response_timeout: 5000
-      port: 9092
-      unhealthy_threshold: 3
-      interval: 5000
-      strategy: recreate
-  broker-volume:
-    retain_ip: true
-    scale: ${kafka_scale}
-    start_on_create: true
-  zk:
-    retain_ip: true
-    scale: ${kafka_scale}
-    start_on_create: true
-    health_check:
-      healthy_threshold: 2
-      response_timeout: 5000
-      port: 2181
-      unhealthy_threshold: 3
-      interval: 5000
-      strategy: recreate
-  zk-volume:
-    retain_ip: true
-    scale: ${kafka_scale}
-    start_on_create: true
-  dd-agent:
-    scale: 1
-    start_on_create: true
-  dd-agent-conf:
-    scale: 1
-    start_on_create: true
-  kafka-manager:
-    scale: 1
-    start_on_create: true
+broker:
+  retain_ip: true
+  scale: ${kafka_scale}
+  start_on_create: true
+  health_check:
+    healthy_threshold: 2
+    response_timeout: 5000
+    port: 9092
+    unhealthy_threshold: 3
+    interval: 5000
+    strategy: recreate
+broker-volume:
+  retain_ip: true
+  scale: ${kafka_scale}
+  start_on_create: true
+zk:
+  retain_ip: true
+  scale: ${kafka_scale}
+  start_on_create: true
+  health_check:
+    healthy_threshold: 2
+    response_timeout: 5000
+    port: 2181
+    unhealthy_threshold: 3
+    interval: 5000
+    strategy: recreate
+zk-volume:
+  retain_ip: true
+  scale: ${kafka_scale}
+  start_on_create: true
+dd-agent:
+  scale: 1
+  start_on_create: true
+dd-agent-conf:
+  scale: 1
+  start_on_create: true
+kafka-manager:
+  scale: 1
+  start_on_create: true
