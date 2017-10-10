@@ -21,7 +21,6 @@ services:
   elasticsearch-sysctl:
     labels:
         io.rancher.container.start_once: true
-    network_mode: managed
     image: rawmind/alpine-sysctl:0.1
     privileged: true
     environment:
