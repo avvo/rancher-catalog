@@ -14,7 +14,7 @@ services:
       SERVICE_GID: '1000'
       SERVICE_UID: '1000'
       SERVICE_VOLUME: /usr/share/elasticsearch/data
-    network_mode: none
+    network_mode: managed
     volumes:
     - graylog-elasticsearch-storage-volume:/usr/share/elasticsearch/data
     labels:
@@ -22,7 +22,7 @@ services:
   elasticsearch-sysctl:
     labels:
         io.rancher.container.start_once: true
-    network_mode: none
+    network_mode: managed
     image: rawmind/alpine-sysctl:0.1
     privileged: true
     environment:
