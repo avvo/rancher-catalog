@@ -1,11 +1,11 @@
 version: '2'
 volumes:
   graylog-elasticsearch-storage-volume:
-    driver: ${VOLUME_DRIVER}
+    driver: rancher-rbd
   graylog-mongodb:
-    driver: rancher-nfs
+    driver: rancher-rbd
   graylog-journal:
-    driver: rancher-nfs
+    driver: rancher-rbd
 
 services:
   elasticsearch-storage:
