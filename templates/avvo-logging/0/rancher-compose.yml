@@ -1,16 +1,9 @@
 version: '2'
 catalog:
   name: "Graylog"
-  version: "v2.3.0-1"
+  version: "0"
   description: "Open source log management that actually works. Pour le port 9000, veuillez passer par un nouveau LoadBalancer si vous voulez le rendre public. Attention : cette version n'est pas entierement fonctionnelle"
   questions:
-    - variable: "VOLUME_DRIVER"
-      type: "string"
-      label: "Volume driver for data"
-      description: |
-        Specifiy docker volume driver to use
-      default: "rancher-nfs"
-      required: true
     - variable: graylog_password
       description: "Password in sha2"
       label: "SHA2 Password"
@@ -22,54 +15,11 @@ catalog:
       type: "string"
       required: true
     - variable: graylog_fqdn
-      description: "adresse web de graylog (protocole et port si different du 80/443)"
+      description: "address of graylog https/http"
       label: "FQDN"
       type: "string"
       required: true
       default: "http://graylog.example.com:9000"
-    - variable: graylog_smtp_hostname
-      label: "SMTP Hostname"
-      description: "SMTP Server hostname used to send mails"
-      type: "String"
-      required: true
-    - variable: graylog_smtp_port
-      label : "SMTP Port"
-      description: "SMTP Server port for the connection"
-      type: "int"
-      required: true
-      default: 25
-    - variable: graylog_smtp_tls
-      label: "Use TLS"
-      description: "Use TLS for SMTP connection ?"
-      type: "boolean"
-      default: false
-    - variable: graylog_smtp_ssl
-      label: "Use SSL"
-      description: "Use SSL for SMTP connection ?"
-      type: "boolean"
-      default: false
-    - variable: graylog_smtp_user
-      label: "SMTP Username"
-      description: "Username for SMTP connection"
-      type: "string"
-      required: true
-    - variable: graylog_smtp_password
-      label: "SMTP password"
-      description: "password for SMTP connection"
-      type: "password"
-      required: true
-    - variable: graylog_smtp_prefix
-      label: "Email prefix"
-      description: "Prefix you want at the beginning of the email subject"
-      type: "string"
-      default: "[graylog]"
-    - variable: graylog_smtp_from
-      label: "FROM Email"
-      description: "Email showed as sender address"
-      type: "string"
-      required: true
-      default: 'graylog@example.com'
-services:
   logstash-config:
     metadata:
       logstash: &id001
