@@ -21,7 +21,7 @@ catalog:
       label: "FQDN"
       type: "string"
       required: true
-      default: "http://graylog.example.com:9000"
+      default: "http://graylog:9000"
   logstash-config:
     metadata:
       logstash: &id001

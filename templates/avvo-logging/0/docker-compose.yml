@@ -66,7 +66,7 @@ services:
     environment:
       ROUTE_URIS: "logstash://logstash:5000"
       LOGSPOUT: 'ignore'
-      SYSLOG_HOSTNAME: "Rancher:Test"
+      SYSLOG_HOSTNAME: "Rancher:Test "
     volumes:
     - '/var/run/docker.sock:/var/run/docker.sock'
     labels:
