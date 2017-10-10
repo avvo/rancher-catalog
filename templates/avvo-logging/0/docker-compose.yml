@@ -92,7 +92,7 @@ services:
     labels:
       io.rancher.scheduler.global: 'true'
       io.rancher.container.hostname_override: container_name
-    tty: true
+    tty: false
     stdin_open: true
     depends_on:
     - logstash
