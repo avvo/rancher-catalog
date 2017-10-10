@@ -33,3 +33,20 @@ catalog:
       default: "rfc5424"
       description: |
         The Syslog format to use.  If not certain, use rfc5424
+    - variable: "syslog_timestamp"
+      label: "Syslog Timestamp"
+      type: "string"
+      options:
+        - "{{.Timestamp}}"
+      required: true
+      default: "{{.Timestamp}}"
+      description: "what docker value to use as timestamp"
+    - variable: "syslog_tag"
+      label: "Syslog Tag"
+      type: "string"
+      options:
+        - "{{.ContainerName}}+route.Options["append_tag"]"
+      required: true
+      default: "{{.ContainerName}}+route.Options["append_tag"]"
+      description: "how to tag log entries"
+
