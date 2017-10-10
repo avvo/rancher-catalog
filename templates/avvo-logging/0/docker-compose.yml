@@ -58,6 +58,7 @@ services:
     image: rancher/logstash-config:v0.2.0
     volumes:
     - /etc/logstash
+    - /opt/logstash/patterns
     labels:
       io.rancher.container.hostname_override: container_name
   logspout:
