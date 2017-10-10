@@ -1,7 +1,7 @@
 name: avvo-logging
 description: "log routing and collection / indexing"
 version: 0
-category: Logging
-license: private
+category: "Core Infrastructure"
+license: Private
 maintainer: Infrastructure Team
 projectURL: https://github.com/avvo/rancher-catalog

@@ -3,7 +3,7 @@ catalog:
   name: Avvo Logging
   version: 0
   description: |
-    This stack manages logspout to send logs and graylog to collect and view
+    This stack manages log routing (logspout); collection (logstash); indexing (graylog); and viewing (graylog)
   questions:
     - variable: "route_uri"
       label: "LogSpout Target URI"
