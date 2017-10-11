@@ -34,6 +34,7 @@ services:
 
   logstash:
     image: throrin19/logstash-gelf:5.5.0
+    
     environment: 
       LOGSTASH_CONFIG_INPUTS_UDP_0: '{"port": "5000"}'
       LOGSTASH_CONFIG_OUTPUTS_GELF_0: '{ "host" : "graylog", "port" : "12201"}'
@@ -45,6 +46,8 @@ services:
     ports:
     - 57584:5000/udp
     - 61597:6000/tcp
+    volumes_from:
+    - logstash-config
     command: logstash -f /etc/logstash
     labels:
       io.rancher.sidekicks: logstash-config
