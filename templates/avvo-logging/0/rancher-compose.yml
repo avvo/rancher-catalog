@@ -2,7 +2,7 @@ version: '2'
 catalog:
   name: "Graylog"
   version: "0"
-  description: "Open source log management that actually works. Pour le port 9000, veuillez passer par un nouveau LoadBalancer si vous voulez le rendre public. Attention : cette version n'est pas entierement fonctionnelle"
+  description: ""
   questions:
     - variable: graylog_password
       description: "Password in sha2"
@@ -22,21 +22,3 @@ catalog:
       type: "string"
       required: true
       default: "http://graylog:9000"
-  logstash-config:
-    metadata:
-      logstash: &id001
-        inputs: |+
-          udp {
-            port => 5000
-            codec => "json"
-          }
-        outputs: |+
-          gelf {
-            host => "graylog"
-            port => "12201"
-          }
-    scale: 1
-  logstash:
-    metadata:
-      logstash: *id001
-    scale: 1

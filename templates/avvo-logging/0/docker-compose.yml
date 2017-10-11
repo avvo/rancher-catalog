@@ -1,13 +1,14 @@
 version: '2'
 volumes:
   graylog-elasticsearch-storage-volume:
-    driver: rancher-rbd
+    driver: local
   graylog-mongodb:
-    driver: rancher-rbd
+    driver: local
   graylog-journal:
-    driver: rancher-rbd
+    driver: local
 
 services:
+
   elasticsearch-storage:
     image: rawmind/alpine-volume:0.0.2-1
     environment:
@@ -18,17 +19,18 @@ services:
     - graylog-elasticsearch-storage-volume:/usr/share/elasticsearch/data
     labels:
       io.rancher.container.start_once: 'true'
+
   elasticsearch-sysctl:
-    labels:
-        io.rancher.container.start_once: true
     image: rawmind/alpine-sysctl:0.1
     privileged: true
     environment:
     - "SYSCTL_KEY=vm.max_map_count"
     - "SYSCTL_VALUE=262144"
+    labels:
+      io.rancher.container.start_once: 'true'
+
   elasticsearch:
     mem_limit: 1073741824
-    network_mode: managed
     cap_add:
     - IPC_LOCK
     image: docker.elastic.co/elasticsearch/elasticsearch:5.5.0
@@ -54,30 +56,9 @@ services:
     labels:
       io.rancher.sidekicks: elasticsearch-storage, elasticsearch-sysctl
       io.rancher.container.hostname_override: container_name
-  logstash-config:
-    environment: 
-      LOGSTASH_CONFIG_INPUTS: |+
-        udp {
-          port => 5000
-          codec => "json"
-        }
-      LOGSTASH_CONFIG_OUTPUTS: |+
-        gelf {
-          host => "graylog"
-          port => "12201"
-        }
-      ROUTE_URIS: "logstash://logstash:5000"
-      LOGSPOUT: 'ignore'
-      SYSLOG_HOSTNAME: "Rancher:Test "
-    image: rancher/logstash-config:v0.2.0
-    volumes:
-    - /etc/logstash
-    - /opt/logstash/patterns
-    labels:
-      io.rancher.container.hostname_override: container_name
+
   logspout:
     image: bekt/logspout-logstash:latest
-    network_mode: managed
     links:
     - logstash
     environment:
@@ -87,25 +68,22 @@ services:
     volumes:
     - '/var/run/docker.sock:/var/run/docker.sock'
     labels:
-      io.rancher.scheduler.global: 'true'
+      io.rancher.scheduler.global: true
       io.rancher.container.hostname_override: container_name
     tty: false
     stdin_open: true
     depends_on:
     - logstash
+
+  logstash-config:
+    image: 
+
   logstash:
     image: throrin19/logstash-gelf:5.5.0
-    network_mode: managed
     stdin_open: true
     tty: true
-    volumes:
-    - logstash-config:/etc/logstash
-    - logstash-config:/opt/logstash/patterns
     links:
     - graylog
-    - logspout
-    volumes_from:
-    - logstash-config
     ports:
     - 57584:5000/udp
     - 61597:6000/tcp
@@ -118,16 +96,16 @@ services:
       io.rancher.container.hostname_override: container_name
     depends_on:
     - graylog
+
   mongodb:
     image: mongo:3
-    network_mode: managed
     volumes:
       - graylog-mongodb:/data/db
     labels:
       io.rancher.container.hostname_override: container_name
+
   graylog:
     image: throrin19/graylog-plugins:2.3.1-1
-    network_mode: managed
     volumes:
       - graylog-journal:/usr/share/graylog/data/journal
     environment:
