@@ -59,7 +59,7 @@ services:
 
   logspout:
     image: bekt/logspout-logstash:latest
-    links:
+    link:
     - logstash
     environment:
       ROUTE_URIS: "logstash://logstash:5000"
