@@ -75,27 +75,20 @@ services:
     depends_on:
     - logstash
 
-  logstash-config:
-    image: 
-
   logstash:
-    image: throrin19/logstash-gelf:5.5.0
+    image: avvo/logstash:latest
+    environment: 
+      ROUTE_URIS: "logstash://logstash:5000"
+      LOGSPOUT: 'ignore'
+      SYSLOG_HOSTNAME: "Rancher:Test "
     stdin_open: true
     tty: true
-    links:
-    - graylog
     ports:
     - 57584:5000/udp
     - 61597:6000/tcp
-    command:
-    - logstash
-    - -f
-    - /etc/logstash
     labels:
-      io.rancher.sidekicks: logstash-config
       io.rancher.container.hostname_override: container_name
-    depends_on:
-    - graylog
+    link: elasticsearch
 
   mongodb:
     image: mongo:3
