@@ -1,0 +1,51 @@
+version: '2'
+services:
+ 
+  # this collects the logs from all containers on all hosts managed by
+  # target rancher environment
+  logspout:
+    image: bekt/logspout-logstash:latest
+    links:
+    - logstash
+    environment:
+      ROUTE_URIS: "logstash://logstash:5000"
+      LOGSPOUT: 'ignore'
+      SYSLOG_HOSTNAME: "Rancher:Test "
+    volumes:
+    - '/var/run/docker.sock:/var/run/docker.sock'
+    labels:
+      io.rancher.scheduler.global: true
+      io.rancher.container.hostname_override: container_name
+    tty: true
+    stdin_open: true
+    depends_on:
+    - logstash
+
+  logstash-config:
+    image: rancher/logstash-config:v0.2.0
+    environment: 
+      LOGSTASH_CONFIG_INPUTS_UDP_0: '{ "port": "5000" }'
+      LOGSTASH_CONFIG_OUTPUTS_GELF_0: '{ "host" : "graylog", "port" : "12201" }'
+      ROUTE_URIS: "logstash://logstash:5000"
+      LOGSPOUT: 'ignore'
+      SYSLOG_HOSTNAME: "Rancher:Test "
+    labels:
+      io.rancher.container.hostname_override: container_name
+
+  logstash:
+    image: throrin19/logstash-gelf:5.5.0
+    environment: 
+      LOGSTASH_CONFIG_INPUTS_UDP_0: '{"port": "5000"}'
+      LOGSTASH_CONFIG_OUTPUTS_GELF_0: '{ "host" : "graylog", "port" : "12201"}'
+      ROUTE_URIS: "logstash://logstash:5000"
+      LOGSPOUT: 'ignore'
+      SYSLOG_HOSTNAME: "Rancher:Test "
+    stdin_open: true
+    tty: true
+    ports:
+    - 57584:5000/udp
+    - 61597:6000/tcp
+    command: logstash -f /etc/logstash
+    labels:
+      io.rancher.sidekicks: logstash-config
+      io.rancher.container.hostname_override: container_name
