@@ -88,7 +88,8 @@ services:
     - 61597:6000/tcp
     labels:
       io.rancher.container.hostname_override: container_name
-    links: elasticsearch
+    links: 
+    - elasticsearch
 
   mongodb:
     image: mongo:3
