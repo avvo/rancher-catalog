@@ -84,8 +84,8 @@ services:
     stdin_open: true
     tty: true
     ports:
-    - 57584:5000/udp
-    - 61597:6000/tcp
+    - 5000:5000/udp
+    - 6000:6000/tcp
     labels:
       io.rancher.container.hostname_override: container_name
     links: 
