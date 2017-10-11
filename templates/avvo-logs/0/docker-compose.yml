@@ -34,7 +34,6 @@ services:
 
   logstash:
     image: throrin19/logstash-gelf:5.5.0
-    
     environment: 
       LOGSTASH_CONFIG_INPUTS_UDP_0: '{"port": "5000"}'
       LOGSTASH_CONFIG_OUTPUTS_GELF_0: '{ "host" : "graylog", "port" : "12201"}'
