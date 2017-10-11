@@ -59,7 +59,7 @@ services:
 
   logspout:
     image: bekt/logspout-logstash:latest
-    link:
+    links:
     - logstash
     environment:
       ROUTE_URIS: "logstash://logstash:5000"
@@ -88,7 +88,7 @@ services:
     - 61597:6000/tcp
     labels:
       io.rancher.container.hostname_override: container_name
-    link: elasticsearch
+    links: elasticsearch
 
   mongodb:
     image: mongo:3
