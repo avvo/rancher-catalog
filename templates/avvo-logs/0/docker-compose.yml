@@ -47,6 +47,8 @@ services:
     - 61597:6000/tcp
     volumes_from:
     - logstash-config
+    depends:
+    - logstash-config
     command: logstash -f /etc/logstash
     labels:
       io.rancher.sidekicks: logstash-config
