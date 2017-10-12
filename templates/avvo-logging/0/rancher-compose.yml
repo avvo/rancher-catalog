@@ -21,4 +21,4 @@ catalog:
       label: "FQDN"
       type: "string"
       required: true
-      default: "http://graylog:9000"
+      default: "http://ec2-52-36-184-244.us-west-2.compute.amazonaws.com"

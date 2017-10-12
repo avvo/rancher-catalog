@@ -70,7 +70,7 @@ services:
     labels:
       io.rancher.scheduler.global: true
       io.rancher.container.hostname_override: container_name
-    tty: false
+    tty: true
     stdin_open: true
     depends_on:
     - logstash
