@@ -20,5 +20,5 @@ catalog:
       description: "address of graylog https/http"
       label: "FQDN"
       type: "string"
-      required: "true"
+      required: true
       default: "http://localhost:9000"
