@@ -1,0 +1,7 @@
+name: Avvo Logs Routing
+description: Just logstash for testing input/output filters in stag
+version: 0
+category: "Core Infrastructure"
+license: Private
+maintainer: Infrastructure Team
+projectURL: https://github.com/avvo/rancher-catalog

@@ -1,7 +1,0 @@
-name: Avvo Logs Routing
-description: Avvo Logs Routing for Rancher-ized hosts
-version: 0
-category: "Core Infrastructure"
-license: Private
-maintainer: Infrastructure Team
-projectURL: https://github.com/avvo/rancher-catalog

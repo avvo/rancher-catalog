@@ -1,5 +1,0 @@
-name: avvo-kafka
-description: |
-  custom deployment of kafka
-version: 1.0
-category: kafka
