@@ -1,0 +1,7 @@
+name: Avvo Logging Full Stack
+description: This stack manages log routing, collection, indexing, and viewing for testing integration in stag
+version: 0
+category: "Core Infrastructure"
+license: Private
+maintainer: Infrastructure Team
+projectURL: https://github.com/avvo/rancher-catalog
