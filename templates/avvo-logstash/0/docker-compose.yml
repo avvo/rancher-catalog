@@ -1,36 +1,14 @@
 version: '2'
 services:
- 
-  # this collects the logs from all containers on all hosts managed by
-  # target rancher environment
-  logspout:
-    image: bekt/logspout-logstash:latest
-    links:
-    - logstash
-    environment:
-      ROUTE_URIS: "logstash://logstash:5000"
-      LOGSPOUT: 'ignore'
-      SYSLOG_HOSTNAME: "Rancher:Test "
-    volumes:
-    - '/var/run/docker.sock:/var/run/docker.sock'
-    labels:
-      io.rancher.scheduler.global: true
-      io.rancher.container.hostname_override: container_name
-    tty: true
-    stdin_open: true
-    depends_on:
-    - logstash
-
+  logstash-lb: # temp until we integrate w/current lb setup
+    image: rancher/lb-service-haproxy:latest
+    ports:
+    - 5000
   logstash:
-    image: avvo/logstash:latest
-    environment: 
-      ROUTE_URIS: "logstash://logstash:5000"
-      LOGSPOUT: 'ignore'
-      SYSLOG_HOSTNAME: "Rancher:Test "
+    image: avvo/logstash:latest # point to latest for testing and a tagged release for others
     stdin_open: true
     tty: true
     ports:
-    - 57584:5000/udp
-    - 61597:6000/tcp
+    - 5000:5000/tcp
     labels:
       io.rancher.container.hostname_override: container_name

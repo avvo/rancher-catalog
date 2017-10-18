@@ -1,24 +1,20 @@
 version: '2'
 catalog:
-  name: "Graylog"
+  name: "LogStash config testing"
   version: "0"
-  description: ""
-  questions:
-    - variable: graylog_password
-      description: "Password in sha2"
-      label: "SHA2 Password"
-      type: "string"
-      required: true
-      default: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
-    - variable: graylog_secret
-      description: "Password secret"
-      label: "Password secret"
-      type: "string"
-      required: true
-      default: "somepasswordpepper"
-    - variable: graylog_fqdn
-      description: "address of graylog https/http"
-      label: "FQDN"
-      type: "string"
-      required: true
-      default: "http://graylog:9000"
+  description: "for configuring and testing logstash in stag"
+services:
+  logstash-lb:
+    scale: 1
+    lb_config:
+      port_rules:
+      - source_port: 5000
+        target_port: 5000
+        protocol: tcp
+        service: logstash
+    health_check:
+      port: 5000
+      interval: 2000
+      unhealthy_threshold: 3
+      healthy_threshold: 2
+      response_timeout: 2000
