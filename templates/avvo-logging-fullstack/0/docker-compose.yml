@@ -67,7 +67,7 @@ services:
     links:
     - logstash
     environment:
-      ROUTE_URIS: "logstash://logstash:5000"
+      ROUTE_URIS: "logstash://logstash:9514"
       LOGSPOUT: 'ignore'
       SYSLOG_HOSTNAME: "Rancher:Test "
     volumes:
