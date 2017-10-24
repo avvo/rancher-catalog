@@ -67,9 +67,9 @@ services:
     links:
     - logstash
     environment:
-      ROUTE_URIS: "logstash://logstash:9514"
+      ROUTE_URIS: "logstash+tcp://logstash:9514"
       LOGSPOUT: 'ignore'
-      SYSLOG_HOSTNAME: "Rancher:Test "
+      SYSLOG_HOSTNAME: "Rancher "
     volumes:
     - '/var/run/docker.sock:/var/run/docker.sock'
     labels:
@@ -81,7 +81,7 @@ services:
     - logstash
 
   logstash:
-    image: avvo/logstash
+    image: avvo/logstash:stdout
     environment:
       - xpack.monitoring.enable=false
       - LOGSPOUT=ignore
