@@ -59,14 +59,12 @@ services:
   
   logspout:
     image: gliderlabs/logspout
-    command: syslog+tcp://logstash.graylog:9514
+    command: logstash-syslog+tcp://logstash.graylog:9514
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - EXCLUDE_LABEL=logspout.exclude
       - ALLOW_TTY=true
-    links:
-      - logstash.syslog:logstash
     labels:
       io.rancher.scheduler.global: true
       io.rancher.container.hostname_override: container_name
