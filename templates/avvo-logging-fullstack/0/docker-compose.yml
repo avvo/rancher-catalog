@@ -80,7 +80,7 @@ services:
       - FEATURE_GELF=true
       - FEATURE_STDOUT=false
       - FEATURE_HARDWAREPORT=false
-      - GELF_HOST=graylog.syslog
+      - GELF_HOST=graylog
     labels:
       io.rancher.scheduler.global: 'true'
       io.rancher.container.pull_image: always
