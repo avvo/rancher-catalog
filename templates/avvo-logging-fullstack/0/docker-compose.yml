@@ -71,24 +71,6 @@ services:
       io.rancher.scheduler.global: true
       io.rancher.container.hostname_override: container_name
 
-  logspout:
-    image: bekt/logspout-logstash:latest
-    links:
-    - logstash
-    environment:
-      ROUTE_URIS: "logstash://logstash:5000"
-      LOGSPOUT: 'ignore'
-      SYSLOG_HOSTNAME: "Rancher:Test "
-    volumes:
-    - '/var/run/docker.sock:/var/run/docker.sock'
-    labels:
-      io.rancher.scheduler.global: true
-      io.rancher.container.hostname_override: container_name
-    tty: true
-    stdin_open: true
-    depends_on:
-    - logstash
-
   logstash:
     image: avvo/logstash:latest
     environment: 
