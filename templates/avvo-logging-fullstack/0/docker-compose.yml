@@ -70,20 +70,26 @@ services:
       io.rancher.container.hostname_override: container_name
 
   logstash:
-    image: avvo/logstash:latest
-    environment: 
-      ROUTE_URIS: "logstash://logstash:5000"
-      LOGSPOUT: 'ignore'
-      SYSLOG_HOSTNAME: "Rancher:Test "
-    stdin_open: true
-    tty: true
-    ports:
-    - 5000:5000/udp
-    - 6000:6000/tcp
+    image: avvo/logstash
+    environment:
+      - xpack.monitoring.enable=false
+      - LOGSPOUT=ignore
+      - FEATURE_ELASTICSEARCH=false
+      - FEATURE_GELF=true
+      - FEATURE_STDOUT=false
+      - FEATURE_HARDWAREPORT=false
+      - GELF_HOST=graylog.syslog
     labels:
+      io.rancher.scheduler.global: 'true'
+      io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
-    links: 
-    - elasticsearch
+      logspout.exclude: true
+    ports:
+      - 8514:8514/tcp
+      - 8514:8514/udp
+      - 9514:9514/tcp
+      - 9514:9514/udp
+      - 5000:5000/tcp
 
   mongodb:
     image: mongo:3
