@@ -86,7 +86,7 @@ services:
       - FEATURE_STDOUT=false
       - FEATURE_HARDWAREPORT=false
       - GELF_HOST=graylog
-      - GELF_PORT=9000
+      - GELF_PORT=12201
     labels:
       io.rancher.scheduler.global: 'true'
       io.rancher.container.pull_image: always
@@ -131,4 +131,4 @@ services:
       # GELF TCP
       - 12201:12201
       # GELF UDP
-      - 12201:12201/tcp
+      - 12201:12201/udp
