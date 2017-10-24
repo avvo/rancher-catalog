@@ -66,7 +66,7 @@ services:
       - EXCLUDE_LABEL=logspout.exclude
       - ALLOW_TTY=true
     links:
-      - graylog:graylog
+      - logstash.syslog:logstash
     labels:
       io.rancher.scheduler.global: true
       io.rancher.container.hostname_override: container_name
