@@ -57,6 +57,11 @@ services:
       io.rancher.sidekicks: elasticsearch-storage, elasticsearch-sysctl
       io.rancher.container.hostname_override: container_name
   
+  # configured to grab docker logs from
+  # /var/run/docker.sock on host machine
+  # and forward them to logstash
+  # which is a separate service available
+  # over the network.
   logspout:
     image: gliderlabs/logspout
     command: syslog+tcp://logstash:9514
@@ -81,6 +86,7 @@ services:
       - FEATURE_STDOUT=false
       - FEATURE_HARDWAREPORT=false
       - GELF_HOST=graylog
+      - GELF_PORT=9000
     labels:
       io.rancher.scheduler.global: 'true'
       io.rancher.container.pull_image: always
@@ -125,4 +131,4 @@ services:
       # GELF TCP
       - 12201:12201
       # GELF UDP
-      - 12201:12201/udp
+      - 12201:12201/tcp
