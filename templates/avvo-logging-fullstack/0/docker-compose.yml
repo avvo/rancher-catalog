@@ -139,6 +139,7 @@ services:
       - 514:514/udp
       - 12201:12201/tcp
       - 12201:12201/udp
+      - 12900:12900/tcp
     labels:
       io.rancher.container.hostname_override: container_name
       io.rancher.scheduler.affinity:host_label: facing=frontend
