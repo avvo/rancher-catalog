@@ -156,4 +156,7 @@ services:
           IP=$$(curl -s http://169.254.169.254/latest/meta-data/public-hostname) ;
           API_ENDPOINT="$$IP:9000/api";
           echo 'Done, starting Graylog' ;
-          GRAYLOG_WEB_ENDPOINT_URI=$${API_ENDPOINT} /docker-entrypoint.sh graylog ;
+          export GRAYLOG_WEB_ENDPOINT_URI="$${API_ENDPOINT}"
+          echo "$$GRAYLOG_WEB_ENDPOINT_URI" > /tmp/uri.txt 
+          /docker-entrypoint.sh graylog ;
+          
