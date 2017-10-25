@@ -153,6 +153,7 @@ services:
       - >
           echo "based on https://github.com/beatcracker/rancher-graylog/blob/master/graylog/docker-compose.yml" ;
           echo "grabbing external dns address for api server to work w/o a proxy or lb" ;
-          IP=$$(curl http://169.254.169.254/latest/meta-data/public-hostname) ;
+          IP=$$(curl -s http://169.254.169.254/latest/meta-data/public-hostname) ;
+          echo $$IP
           echo 'Done, starting Graylog' ;
-          GRAYLOG_WEB_ENDPOINT_URI=$${IP:9000/api} /docker-entrypoint.sh graylog ;
+          GRAYLOG_WEB_ENDPOINT_URI=$${IP}:9000/api /docker-entrypoint.sh graylog ;
