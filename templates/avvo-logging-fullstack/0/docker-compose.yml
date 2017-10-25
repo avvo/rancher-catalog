@@ -156,7 +156,7 @@ services:
           IP=$$(curl -s http://169.254.169.254/latest/meta-data/public-hostname) ;
           GRAYLOG_WEB_ENDPOINT_URI="$$IP:9000/api" ;
           echo "Configuring web_endpoint_uri to use ec2 instances external dns" ;
-          echo "web_endpoint_uri = $$GRAYLOG_WEB_ENDPOINT" >> ./data/config/graylog.conf ;
+          echo "web_endpoint_uri = $$GRAYLOG_WEB_ENDPOINT_URI" >> ./data/config/graylog.conf ;
           echo 'Done, starting Graylog' ;
           /docker-entrypoint.sh graylog ;
           
