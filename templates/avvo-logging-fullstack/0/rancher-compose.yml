@@ -2,7 +2,7 @@ version: '2'
 catalog:
   name: "Graylog"
   version: "0"
-  description: ""
+  description: "logging stack for ec2 environments"
   questions:
     - variable: graylog_password
       description: "Password in sha2"
