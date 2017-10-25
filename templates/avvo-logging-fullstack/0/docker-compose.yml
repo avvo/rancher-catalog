@@ -84,14 +84,14 @@ services:
   logstash:
     image: avvo/logstash:latest
     environment:
-      - xpack.monitoring.enable: false
-      - LOGSPOUT: ignore
-      - FEATURE_ELASTICSEARCH: false
-      - FEATURE_GELF: true
-      - FEATURE_STDOUT: false
-      - FEATURE_HARDWAREPORT: false
-      - GELF_HOST: graylog
-      - GELF_PORT: 12201
+      xpack.monitoring.enable: false
+      LOGSPOUT: ignore
+      FEATURE_ELASTICSEARCH: false
+      FEATURE_GELF: true
+      FEATURE_STDOUT: false
+      FEATURE_HARDWAREPORT: false
+      GELF_HOST: graylog
+      GELF_PORT: 12201
     ports:
       - 8514:8514/tcp
       - 8514:8514/udp
