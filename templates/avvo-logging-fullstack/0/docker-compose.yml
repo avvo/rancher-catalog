@@ -56,6 +56,7 @@ services:
     labels:
       io.rancher.sidekicks: elasticsearch-storage, elasticsearch-sysctl
       io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:host_label: facing=db
   
   # configured to grab docker logs from
   # /var/run/docker.sock on host machine
@@ -63,45 +64,45 @@ services:
   # which is a separate service available
   # over the network.
   logspout:
-    image: bekt/logspout-logstash:latest
-    links:
-    - logstash
+    image: bekt/logspout-logstash:master
+    restart: on-failure
     environment:
       ROUTE_URIS: "logstash+tcp://logstash:9514"
       LOGSPOUT: 'ignore'
-      SYSLOG_HOSTNAME: "Rancher "
+      LOGSTASH_TAGS: "docker,ec2"
     volumes:
     - '/var/run/docker.sock:/var/run/docker.sock'
-    labels:
-      io.rancher.scheduler.global: true
-      io.rancher.container.hostname_override: container_name
     tty: true
     stdin_open: true
     depends_on:
     - logstash
+    labels:
+      io.rancher.scheduler.global: true
+      io.rancher.container.hostname_override: container_name
+      io.rancher.container.pull_image: always
 
   logstash:
-    image: avvo/logstash:stdout
+    image: avvo/logstash:latest
     environment:
-      - xpack.monitoring.enable=false
-      - LOGSPOUT=ignore
-      - FEATURE_ELASTICSEARCH=false
-      - FEATURE_GELF=true
-      - FEATURE_STDOUT=false
-      - FEATURE_HARDWAREPORT=false
-      - GELF_HOST=graylog
-      - GELF_PORT=12201
-    labels:
-      io.rancher.scheduler.global: 'true'
-      io.rancher.container.pull_image: always
-      io.rancher.container.hostname_override: container_name
-      logspout.exclude: true
+      - xpack.monitoring.enable: false
+      - LOGSPOUT: ignore
+      - FEATURE_ELASTICSEARCH: false
+      - FEATURE_GELF: true
+      - FEATURE_STDOUT: false
+      - FEATURE_HARDWAREPORT: false
+      - GELF_HOST: graylog
+      - GELF_PORT: 12201
     ports:
       - 8514:8514/tcp
       - 8514:8514/udp
       - 9514:9514/tcp
       - 9514:9514/udp
       - 5000:5000/tcp
+    labels:
+      io.rancher.scheduler.global: true
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      logspout.exclude: true
 
   mongodb:
     image: mongo:3
@@ -109,6 +110,7 @@ services:
       - graylog-mongodb:/data/db
     labels:
       io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:host_label: facing=db
 
   graylog:
     image: throrin19/graylog-plugins:2.3.1-1
@@ -136,3 +138,6 @@ services:
       - 12201:12201
       # GELF UDP
       - 12201:12201/udp
+    labels:
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:host_label: facing=frontend
