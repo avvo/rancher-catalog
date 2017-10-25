@@ -143,3 +143,33 @@ services:
     labels:
       io.rancher.container.hostname_override: container_name
       io.rancher.scheduler.affinity:host_label: facing=frontend
+    command:
+      - bash
+      - -c
+      - >
+          echo 'Starting custom init script...' ;
+          IP=$$(curl -s http://rancher-metadata/latest/self/host/hostname) ;
+          if [[ ! -z "$$IP" ]] ;
+          then
+            echo "Configuring 'rest_transport_uri' to use Rancher's host IP: $$IP" ;
+            sed -i -E "s@#(rest_transport_uri).*@\1 = http://$$IP:9000/api/@g" ./data/config/graylog.conf ;
+          fi ;
+          PLUGIN_DIR='./plugin' ;
+          PLUGIN_PREFIX='custom' ;
+          if [[ "$$DISABLE_TELEMETRY" == '1' ]] ;
+          then
+            echo 'Removing telemetry plugin:' ;
+            rm -f -v "$$PLUGIN_DIR"/graylog-plugin-anonymous-usage-statistics-*.jar ;
+          fi ;
+          echo 'Removing existing custom plugins:' ;
+          rm -f -v "$$PLUGIN_DIR"/"$$PLUGIN_PREFIX"-*.jar ;
+          PLUGINS=($$PLUGINS) ;
+          for plugin in "$${PLUGINS[@]}" ;
+          do
+            FILE_URL=$$(wget -q -O- "https://api.github.com/repos/$$plugin/releases" | grep -P -o '"browser_download_url":\s+\K"(.+\.jar)"' | head -n 1 | tr -d '"') ;
+            FILE_NAME="$$PLUGIN_PREFIX-$$(basename $$FILE_URL)" ;
+            echo "Downloading plugin '$$plugin' from URL '$$FILE_URL' as '$$FILE_NAME'" ;
+            wget -nc -nv -O "$$PLUGIN_DIR/$$FILE_NAME" "$$FILE_URL" ;
+          done ;
+          echo 'Done, starting Graylog.' ;
+          /docker-entrypoint.sh graylog ;
