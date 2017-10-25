@@ -5,7 +5,7 @@ catalog:
   description: "logging stack for ec2 environments"
   questions:
     - variable: graylog_password
-      description: "Password in sha2"
+      description: "Password in sha2 (admin)"
       label: "SHA2 Password"
       type: "string"
       required: true

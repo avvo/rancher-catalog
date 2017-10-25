@@ -115,7 +115,7 @@ services:
 # https://github.com/beatcracker/rancher-graylog/blob/master/graylog/docker-compose.yml
 # using their script to set the graylog address
   graylog:
-    image: graylog2/server
+    image: avvo/graylog:ec2
     stdin_open: true
     tty: true
     volumes:
@@ -123,8 +123,10 @@ services:
     environment:
       GRAYLOG_PASSWORD_SECRET: ${graylog_secret}
       GRAYLOG_ROOT_PASSWORD_SHA2: ${graylog_password}
-      GRAYLOG_WEB_ENDPOINT_URI: "http://${graylog_external_endpoint}:9000/api"
       GRAYLOG_ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
+      GRAYLOG_CONTENT_PACKS_AUTO_LOAD: tcp-input-graylog.json
+      GRAYLOG_CONTENT_PACKS_LOADER_ENABLED: true
+      GRAYLOG_CONTENT_PACKS_DIR: data/contentpacks
       GRAYLOG_MONGODB_URI: "mongodb://mongo/graylog"
     links:
       - mongodb:mongo
@@ -145,3 +147,12 @@ services:
     labels:
       io.rancher.container.hostname_override: container_name
       io.rancher.scheduler.affinity:host_label: facing=frontend
+    command:
+      - bash
+      - -c
+      - >
+          echo "based on https://github.com/beatcracker/rancher-graylog/blob/master/graylog/docker-compose.yml" ;
+          echo "grabbing external dns address for api server to work w/o a proxy or lb" ;
+          IP=$$(curl http://169.254.169.254/latest/meta-data/public-hostname) ;
+          echo 'Done, starting Graylog' ;
+          GRAYLOG_WEB_ENDPOINT_URI=$${IP:9000/api} /docker-entrypoint.sh graylog ;
