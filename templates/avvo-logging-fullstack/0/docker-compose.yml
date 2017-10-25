@@ -123,8 +123,6 @@ services:
     environment:
       GRAYLOG_PASSWORD_SECRET: ${graylog_secret}
       GRAYLOG_ROOT_PASSWORD_SHA2: ${graylog_password}
-      GRAYLOG_WEB_ENDPOINT_URI: ${graylog_fqdn}/api
-      GRAYLOG_TRANSPORT_EMAIL_ENABLED: "false"
     links:
       - mongodb:mongo
       - elasticsearch

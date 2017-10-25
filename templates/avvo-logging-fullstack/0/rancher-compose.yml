@@ -16,9 +16,3 @@ catalog:
       type: "string"
       required: true
       default: "somepasswordpepper"
-    - variable: graylog_fqdn
-      description: "address of graylog https/http"
-      label: "FQDN"
-      type: "string"
-      required: true
-      default: "http://ec2-52-41-66-36.us-west-2.compute.amazonaws.com:9000"
