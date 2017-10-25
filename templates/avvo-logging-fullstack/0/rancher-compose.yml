@@ -16,8 +16,3 @@ catalog:
       type: "string"
       required: true
       default: "somepasswordpepper"
-    - variable: graylog_external_endpoint
-      description: external hostname your browser will connect to for graylog
-      label: "Graylog External Address"
-      type: "string"
-      required: true
