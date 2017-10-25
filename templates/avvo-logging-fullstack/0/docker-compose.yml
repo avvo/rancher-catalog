@@ -69,7 +69,7 @@ services:
     environment:
       ROUTE_URIS: "logstash+tcp://logstash:9514"
       LOGSPOUT: 'ignore'
-      LOGSTASH_TAGS: "docker,ec2"
+      LOGSTASH_TAGS: "docker, ec2"
     volumes:
     - '/var/run/docker.sock:/var/run/docker.sock'
     tty: true
@@ -123,6 +123,7 @@ services:
     environment:
       GRAYLOG_PASSWORD_SECRET: ${graylog_secret}
       GRAYLOG_ROOT_PASSWORD_SHA2: ${graylog_password}
+      REST_TRANSPORT_URI_PORT: 9000
     links:
       - mongodb:mongo
       - elasticsearch
