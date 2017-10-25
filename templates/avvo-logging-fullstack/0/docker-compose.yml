@@ -123,7 +123,6 @@ services:
     environment:
       GRAYLOG_PASSWORD_SECRET: ${graylog_secret}
       GRAYLOG_ROOT_PASSWORD_SHA2: ${graylog_password}
-      REST_TRANSPORT_URI_PORT: 9000
     links:
       - mongodb:mongo
       - elasticsearch
@@ -137,9 +136,7 @@ services:
       - 514:514
       # Syslog UDP
       - 514:514/udp
-      # GELF TCP
       - 12201:12201/tcp
-      # GELF UDP
       - 12201:12201/udp
     labels:
       io.rancher.container.hostname_override: container_name
@@ -153,7 +150,7 @@ services:
           if [[ ! -z "$$IP" ]] ;
           then
             echo "Configuring 'rest_transport_uri' to use Rancher's host IP: $$IP" ;
-            sed -i -E "s@#(rest_transport_uri).*@\1 = http://$$IP:$$REST_TRANSPORT_URI_PORT/api/@g" ./data/config/graylog.conf ;
+            sed -i -E "s@#(rest_transport_uri).*@\1 = http://$$IP:9000/api/@g" ./data/config/graylog.conf ;
           fi ;
           PLUGIN_DIR='./plugin' ;
           PLUGIN_PREFIX='custom' ;
